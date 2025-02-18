@@ -1,0 +1,21 @@
+body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pink) ;
+}
+
+#centro1 {text-align: center; }
+#centro{  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25;}
+
+h1{font-family: Verdana;}
+h2{font-family: monospace;
+font-size: 18pt;}
+li{font-family: 'Lucida Sans';
+font-size: 14pt;}
+p{font-size: 14pt   ;}
+
+
+
+
+div a{font-size: 20pt;
+font-family: Verdana;}

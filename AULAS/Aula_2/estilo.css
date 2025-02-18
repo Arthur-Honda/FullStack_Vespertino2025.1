@@ -1,0 +1,17 @@
+p{
+    color: rgb(12, 102, 12);
+    font-size: 18pt;
+    text-align: left;
+}
+
+#p1{color: chartreuse;}
+
+.tag_amarela{color: yellow;}
+div p{
+    color: red;
+    font-size: 14pt;
+    text-align: center;
+}
+
+.tag_amarela:hover{background-color: coral;
+text-align: right;}
