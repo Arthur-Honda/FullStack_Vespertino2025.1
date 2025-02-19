@@ -7,4 +7,36 @@ body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pin
 div a{font-size: 20pt;
     font-family: Verdana;}
 
+.home{ background-color: yellow;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 2px solid (black);
+    width: 6%;
+    background: var(lightyellow, 0.5);
+    border: 1px solid var(lightblue, 0.5);
+}
+.project{background-color: yellow;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 8%;
+    background: var( lightyellow, 0.5);
+  border: 1px solid var(lightblue, 0.5);
+}
+
+.home:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 6%; }
+
+.project:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 8%; }
 

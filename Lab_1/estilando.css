@@ -12,10 +12,53 @@ h2{font-family: monospace;
 font-size: 18pt;}
 li{font-family: 'Lucida Sans';
 font-size: 14pt;}
-p{font-size: 14pt   ;}
+p{font-size: 14pt;}
 
+.home{ background-color: lightgray;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 6%;
+    background: var(lightyellow, 0.5);
+    border: 1px solid var(lightblue, 0.5);
+    border: 5px solid black;
+    text-decoration: none;
+    color: black;
+    
+}
+.project{background-color: lightgray;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 8%;
+    background: var( rebeccapurple, 0.5);
+    border: 1px solid var(lightblue, 0.5);
+    border: 5px solid black;
+    margin: 10px;
+    text-decoration: none;
+    color: black;
 
-
+}
 
 div a{font-size: 20pt;
 font-family: Verdana;}
+
+
+.home:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 6%; 
+    border: 3px solid black;
+    
+}
+
+.project:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 8%; 
+    border: 3px solid black;
+}
