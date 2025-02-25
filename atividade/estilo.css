@@ -1,0 +1,49 @@
+body{background-color: lightgrey;}
+
+
+/*border*/
+.border{border: solid 70px bisque;}
+.background{background-color: bisque;}
+.border1{border: solid 5px darkblue ;}
+.color1{color: darkgreen;}
+.tamanho{width: 180px ;
+height: 180px;}
+.java{display:inline;
+position:absolute;
+right: 10px;
+left:  1700px;
+top: 50px}
+.cema{display: inline;
+position: relative;
+top: -35px;}
+.center{text-align: center;}
+.aga1{position:relative;
+top: 100px;}
+
+
+
+/*border 2*/
+.border2{border: solid 20px lightskyblue;}
+.background2{background-color: lightskyblue;}
+.ah{margin-left: 320px;
+color: darkred;
+text-decoration: none;}
+
+/*pe*/
+.pe{font-size: 20pt;
+font-family: sans-serif;
+color: indigo;
+text-align: center;}
+
+/*books*/
+.tamanho2{width: 280px; height: 420px;}
+.imeg{margin: 100px;}
+.bok1{display: inline;
+    margin-left: 320px;}
+
+.bok2{display: inline;}
+    
+.bok3{display: inline;}
+
+
+
