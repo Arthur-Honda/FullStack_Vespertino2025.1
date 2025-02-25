@@ -33,7 +33,6 @@ div a{font-size: 20pt;
     color: black;
 
 }
-
 .home:hover{
     background-color: lightblue;
     border-radius: 10px;
@@ -41,7 +40,6 @@ div a{font-size: 20pt;
     border: 1.5px;
     width: 6%;
     border: 3px solid black; }
-
 .project:hover{
     background-color: lightblue;
     border-radius: 10px;
@@ -49,7 +47,13 @@ div a{font-size: 20pt;
     border: 1.5px;
     width: 8%;
     border: 3px solid black; }
-
+.fix_home{position: fixed;
+top: 1px;
+left: 5px;}
+.fix_projeto{position: fixed;
+top: 1px;
+left: 150px;}
 
 .margin{margin: 10px;}
+.margin_40{margin-top: 60px;}
 
