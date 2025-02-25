@@ -1,4 +1,11 @@
-.dotted{border-style: dotted;}
-.dashed{border-style: dashed;}
-.solid{border-style: solid;}
+.dotted{border: 5px dotted red;}
+.dashed{border: 5px dashed rebeccapurple;}
+.solid{border: 5px solid slateblue;}
 .margin{margin: 10px;}
+.radius{border-radius: 10px;}
+.radius_2{border-radius: 20px;}
+.shadow{box-shadow: 5px 5px gray;}
+.padding{padding: 10px;}
+.width{width: 100px;}
+.display{display: inline;}
+.display_b{display:block}
