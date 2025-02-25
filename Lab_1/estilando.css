@@ -1,5 +1,8 @@
-body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pink) ;
-}
+body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pink) ;}
+
+div a{font-size: 20pt;
+font-family: Verdana;}
+
 
 #centro1 {text-align: center; }
 #centro{  display: block;
@@ -9,10 +12,15 @@ body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pin
 
 h1{font-family: Verdana;}
 h2{font-family: monospace;
-font-size: 18pt;}
+font-size: 18pt;
+margin-left: 0cm;}
 li{font-family: 'Lucida Sans';
-font-size: 14pt;}
-p{font-size: 14pt;}
+font-size: 14pt;
+margin-left: 2cm}
+p{font-size: 14pt;
+margin-left: 2cm;}
+
+
 
 .home{ background-color: lightgray;
     gap: 20px;
@@ -40,8 +48,7 @@ p{font-size: 14pt;}
 
 }
 
-div a{font-size: 20pt;
-font-family: Verdana;}
+
 
 
 .home:hover{
