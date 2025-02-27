@@ -39,7 +39,7 @@ text-align: center;}
 .tamanho2{width: 280px; height: 420px;}
 .imeg{margin: 100px;}
 .bok1{display: inline;
-    margin-left: 320px;}
+    margin-left: 342px;}
 
 .bok2{display: inline;}
     
@@ -47,3 +47,47 @@ text-align: center;}
 
 
 
+/*iframes*/
+.youtube{display: inline;
+    margin-left: 453px;}
+.maps{display: inline;}
+
+/*contatos*/
+.contato{margin: auto;}
+.color2{color: red;}
+.border3{border: dashed 5px red;}
+.tamanho3{width: 400px;
+height: 150px;}
+
+/*consulta*/
+.marcor{position: relative;
+margin: 80px;
+color: darkred;
+text-decoration: none;
+font-weight: bold;}
+.border4{border: solid 25px yellow;}
+.background3{background-color: yellow;}
+.size{width: 500px; height: 50px;}
+.central{margin-left: auto;
+margin-right: auto;}
+.up{position: relative;
+bottom: 41px;
+font-size: 12pt;
+right: 23px;}
+
+/*footer*/
+.border5{border: solid 30px bisque;}
+.background4{background-color: bisque;} 
+.font{font-size: 15pt;
+font-family: 'Comic Sans MS';}
+.tamanho4{width: 10 0px;
+height: 100px;}
+.css{display: inline;
+position: absolute;
+right: 40px;   
+left: 1875px;
+top: 2515px;}
+.html{display: inline;
+position: relative;
+bottom: 75px;
+left: -30px;}
