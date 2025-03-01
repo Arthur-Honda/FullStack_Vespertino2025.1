@@ -83,7 +83,9 @@ left: 150px;}
     margin-left: auto;
     margin-right: auto;
 }
-
+.position1{position: absolute;
+    left: 400;
+}
 
 
 
