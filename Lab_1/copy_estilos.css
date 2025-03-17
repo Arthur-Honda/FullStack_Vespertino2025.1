@@ -31,9 +31,17 @@ top: -35px;}
 /*border 2*/
 .border2{border: solid 20px lightskyblue;}
 .background2{background-color: lightskyblue;}
-.ah{margin-left: 320px;
-color: darkred;
-text-decoration: none;}
+.flexbox-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+div a{
+    text-decoration: none;
+    color: darkred;
+
+}
+
 
 /*pe*/
 .pe{font-size: 20pt;
