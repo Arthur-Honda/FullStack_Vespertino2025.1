@@ -17,8 +17,14 @@ top: 50px}
 position: relative;
 top: -35px;}
 .center{text-align: center;}
-.aga1{position:relative;
-top: 100px;}
+.self{
+    display: flex;
+    align-self: center;
+}
+.flexbox{
+    display: flex;
+    justify-content: space-between;
+}
 
 
 
@@ -37,20 +43,16 @@ text-align: center;}
 
 /*books*/
 .tamanho2{width: 280px; height: 420px;}
-.imeg{margin: 100px;}
-.bok1{display: inline;
-    margin-left: 315px;}
-
-.bok2{display: inline;}
-    
-.bok3{display: inline;}
+.container{
+    display: flex;
+    justify-content: space-evenly;
+}
 
 
 
 /*iframes*/
-.youtube{display: inline;
-    margin-left: 453px;}
-.maps{display: inline;}
+
+
 
 /*contatos*/
 .contato{margin: auto;}
