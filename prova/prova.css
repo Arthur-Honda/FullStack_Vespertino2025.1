@@ -1,0 +1,132 @@
+.border{
+    border: 15px solid blue;
+    background-color: blue;
+}
+
+.decor{
+    text-decoration: none;
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+
+.container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*sbc*/
+.border2{
+    border: 40px solid white;
+}
+.blue{
+    color: blue;
+}
+.gray{
+    color: gray;
+}
+.yellow{
+    color: orange;
+}
+.green{
+    color: lightgreen;
+}
+.sub{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sub1{
+    display: flex;
+    flex-direction: row;
+}
+.sub2{
+    display: flex;
+    flex-direction: row;
+    
+}
+.font{
+    font-size: 24pt;
+    font-family: fantasy;
+}
+.position{
+    display: flex;
+    align-items: ;
+}
+.smol{
+    font-family: fantasy;
+    font-size: 13pt;
+}
+.fonte1{
+    font-family: fantasy;
+    color: white;
+}
+
+
+/*main*/
+
+.flexbox{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    
+}
+.locais{
+    border: 10px solid orange;
+    background-color: orange;
+    width: 300px;
+    height: 20px;
+    text-align: center;
+    align-items: center;
+}
+.flex{
+    display: flex;
+    align-self: center;
+}
+.flix{
+    display: flex;
+    align-self: start;
+}
+.secretarias{
+    border: 10px solid green;
+    background-color: green;
+    width: 600px;
+    height: 20px;
+    text-align: center;
+    align-items: center;
+}
+.contate{
+    border: 10px solid blue;
+    background-color: blue;
+    width: 400px;
+    height: 20px;
+    text-align: center;
+    align-items: center;
+}
+.centro{
+    text-align: center;
+    align-items: center;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+}
+.fonte{
+    
+    font-size: 14pt;
+}
+.list{
+    display: flex;
+    flex-flow: nowrap row;
+    justify-content: center;
+    text-align: justify;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+    
+}
+.centralizar{
+    text-align: center;
+    align-items: center;
+}
