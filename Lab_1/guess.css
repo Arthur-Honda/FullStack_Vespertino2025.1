@@ -1,0 +1,27 @@
+body {
+    background-color: moccasin; /* Cor de fundo */
+    display: flex;
+    justify-content: center; /* Centralização horizontal */
+    align-items: center; /* Centralização vertical */
+    height: 100vh; /* Altura total da tela */
+    margin: 0; /* Remove margens */
+}
+
+#container {
+    text-align: center; /* Centraliza o texto */
+    padding: 100px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: ivory;
+
+}
+
+.font{
+    font-family: sans-serif;
+}
+
+
+img{
+    width: 500px;
+    height: 500px;
+}
