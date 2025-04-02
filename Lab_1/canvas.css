@@ -1,5 +1,5 @@
 body {
-    background-color: #f0f0f0; /* Cor do fundo */
+    background-color: blanchedalmond; /* Cor do fundo */
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
     align-items: center; /* Centraliza verticalmente */
@@ -7,7 +7,21 @@ body {
     margin: 0; /* Remove margens padrão */
 }
 
-canvas {
+.canvas {
     border: 1px solid #000; /* Borda opaca para o canvas */
 }
+
+.flexbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100vh;
+}
+
+.kanvas{
+    background-color: aquamarine;
+}
+
 
