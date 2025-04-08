@@ -1,0 +1,12 @@
+body {
+    background-color: #f0f0f0; /* Cor do fundo */
+    display: flex;
+    justify-content: center; /* Centralização dos elementos */
+    align-items: center;
+    height: 100vh; /* Altura total da viewport */
+    margin: 0;
+}
+
+canvas {
+    border: 1px solid #000; /* Borda do canvas */
+}

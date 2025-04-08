@@ -151,7 +151,7 @@ desenhar_quadrados(0, 260, 80, 40, 'dodgerblue');
 desenhar_quadrados(40, 260, 80, 40, 'dodgerblue');
 desenhar_quadrados(120, 150, 70, 70, 'Sienna');
 desenhar_quadrados(40, 180, 15, 40, 'Sienna');
-desenhar_quadrados(147, 180, 15, 40, 'SaddleBrown');
+desenhar_quadrados(147, 180, 15, 40, '#4B2E17');
 desenhar_quadrados(260, 215, 15, 40, 'Sienna');
 
 desenhar_quadrados(127, 160, 20, 20, 'LightSkyBlue');

@@ -1,138 +1,130 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-let spaceship = {
-    x: canvas.width / 2 - 25,
-    y: canvas.height - 60,
-    width: 50,
+let player = {
+    x: 50,
+    y: 50,
+    width: 30,
     height: 30,
-    speed: 5,
+    hp: 100,
+    maxHp: 100,
+    attack: 10,
+    healAmount: 15,
 };
 
-let asteroids = [];
-let stars = [];
-let score = 0;
-let gameOver = false;
+let enemies = [
+    { x: 400, y: 300, width: 30, height: 30, hp: 50, attack: 5 },
+    { x: 600, y: 200, width: 30, height: 30, hp: 70, attack: 7 },
+];
 
-// Event listener for keyboard input
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') {
-        spaceship.x -= spaceship.speed;
-        if (spaceship.x < 0) spaceship.x = 0; // Prevent going out of bounds
-    } else if (event.key === 'ArrowRight') {
-        spaceship.x += spaceship.speed;
-        if (spaceship.x + spaceship.width > canvas.width) {
-            spaceship.x = canvas.width - spaceship.width; // Prevent going out of bounds
+let currentEnemy = null;
+let enemyEncountered = false;
+
+function drawPlayer() {
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+}
+
+function drawEnemies() {
+    enemies.forEach(enemy => {
+        if (enemy.hp > 0) {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        }
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPlayer();
+    drawEnemies();
+}
+
+function encounterEnemy() {
+    const randomIndex = Math.floor(Math.random() * enemies.length);
+    currentEnemy = enemies[randomIndex];
+    enemyEncountered = true;
+    document.getElementById('enemyStats').innerText = 'Enemy HP: ' + currentEnemy.hp;
+}
+
+function attackEnemy() {
+    if (currentEnemy && currentEnemy.hp > 0) {
+        currentEnemy.hp -= player.attack;
+        document.getElementById('enemyStats').innerText = 'Enemy HP: ' + currentEnemy.hp;
+        if (currentEnemy.hp <= 0) {
+            alert('You defeated the enemy!');
+            enemyEncountered = false;
+            currentEnemy = null;
+            document.getElementById('enemyStats').innerText = 'Enemy HP: 0';
+        } else {
+            enemyAttack();
         }
     }
+}
+
+function enemyAttack() {
+    if (currentEnemy) {
+        player.hp -= currentEnemy.attack;
+        if (player.hp <= 0) {
+            alert('You have been defeated!');
+            resetGame();
+        }
+        document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
+    }
+}
+
+function healPlayer() {
+    if (player.hp < player.maxHp) {
+        player.hp += player.healAmount;
+        if (player.hp > player.maxHp) {
+            player.hp = player.maxHp;
+        }
+        document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp') {
+        player.y -= 10;
+    } else if (e.key === 'ArrowDown') {
+        player.y += 10;
+    } else if (e.key === 'ArrowLeft') {
+        player.x -= 10;
+    } else if (e.key === 'ArrowRight') {
+        player.x += 10;
+    }
+
+    // Check for enemy encounter
+    if (!enemyEncountered) {
+        enemies.forEach(enemy => {
+            if (player.x < enemy.x + enemy.width &&
+                player.x + player.width > enemy.x &&
+                player.y < enemy.y + enemy.height &&
+                player.y + player.height > enemy.y) {
+                encounterEnemy();
+            }
+        });
+    }
+
+    draw();
 });
 
-// Function to create asteroids
-function createAsteroid() {
-    const x = Math.random() * (canvas.width - 30);
-    asteroids.push({ x: x, y: 0, width: 30, height: 30 });
-}
+// Attack button event listener
+document.getElementById('attackButton').addEventListener('click', attackEnemy);
 
-// Function to create stars
-function createStar() {
-    const x = Math.random() * (canvas.width - 20);
-    stars.push({ x: x, y: 0, width: 20, height: 20 });
-}
+// Heal button event listener
+document.getElementById('healButton').addEventListener('click', healPlayer);
 
-// Function to update game state
-function update() {
-    if (gameOver) return;
-
-    // Move asteroids and check for collisions
-    for (let i = 0; i < asteroids.length; i++) {
-        asteroids[i].y += 3; // Speed of asteroids
-        if (asteroids[i].y > canvas.height) {
-            asteroids.splice(i, 1);
-            i--;
-            continue;
-        }
-        // Collision detection
-        if (
-            spaceship.x < asteroids[i].x + asteroids[i].width &&
-            spaceship.x + spaceship.width > asteroids[i].x &&
-            spaceship.y < asteroids[i].y + asteroids[i].height &&
-            spaceship.y + spaceship.height > asteroids[i].y
-        ) {
-            gameOver = true;
-        }
-    }
-
-    // Move stars and check for collection
-    for (let i = 0; i < stars.length; i++) {
-        stars[i].y += 2; // Speed of stars
-        if (stars[i].y > canvas.height) {
-            stars.splice(i, 1);
-            i--;
-            continue;
-        }
-        // Collision detection
-        if (
-            spaceship.x < stars[i].x + stars[i].width &&
-            spaceship.x + spaceship.width > stars[i].x &&
-            spaceship.y < stars[i].y + stars[i].height &&
-            spaceship.y + spaceship.height > stars[i].y
-        ) {
-            score++;
-            stars.splice(i, 1);
-            i--;
-        }
-    }
-}
-
-// Function to draw everything
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-
-    // Draw spaceship
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(spaceship.x, spaceship.y, spaceship.width, spaceship.height);
-
-    // Draw asteroids
-    ctx.fillStyle = 'gray';
-    for (let asteroid of asteroids) {
-        ctx.fillRect(asteroid.x, asteroid.y, asteroid.width, asteroid.height);
-    }
-
-    // Draw stars
-    ctx.fillStyle = 'yellow';
-    for (let star of stars) {
-        ctx.fillRect(star.x, star.y, star.width, star.height);
-    }
-
-    // Draw score
-    ctx.fillStyle = 'white';
-    ctx.font = '20px Arial';
-    ctx.fillText(`Score: ${score}`, 10, 20);
-
-    // Draw game over message
-    if (gameOver) {
-        ctx.fillStyle = 'red';
-        ctx.font = '40px Arial';
-        ctx.fillText('Game Over!', canvas.width / 2 - 100, canvas.height / 2);
-    }
-}
-
-// Main game loop
-function gameLoop() {
-    if (gameOver) return;
-
-    update();
+// Function to reset the game
+function resetGame() {
+    player.hp = player.maxHp;
+    enemies.forEach(enemy => enemy.hp = Math.floor(Math.random() * 50) + 50); // Reset enemy HP
+    enemyEncountered = false;
+    currentEnemy = null;
+    document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
+    document.getElementById('enemyStats').innerText = 'Enemy HP: 0';
     draw();
-
-    requestAnimationFrame(gameLoop);
 }
 
-// Start the game
-setInterval(() => {
-    if (!gameOver) {
-        createAsteroid();
-        if (Math.random() < 0.5) createStar(); // Randomly create stars
-    }
-}, 1000); // Create asteroids and stars every second
-
-gameLoop(); // Start the game loop
+// Initial draw
+draw();
