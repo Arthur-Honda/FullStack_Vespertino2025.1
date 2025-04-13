@@ -1,130 +1,201 @@
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-let player = {
-    x: 50,
-    y: 50,
-    width: 30,
-    height: 30,
-    hp: 100,
-    maxHp: 100,
-    attack: 10,
-    healAmount: 15,
+const GRAVITY = 0.5;
+let keys = {};
+let currentLevel = 1;
+let enemySpeed = 1;
+let gameWon = false;
+
+document.addEventListener("keydown", (e) => keys[e.code] = true);
+document.addEventListener("keyup", (e) => keys[e.code] = false);
+
+// Jogador
+const player = {
+  x: 100,
+  y: 300,
+  width: 40,
+  height: 60,
+  speed: 4,
+  vy: 0,
+  onGround: false,
+  bullets: [],
 };
 
-let enemies = [
-    { x: 400, y: 300, width: 30, height: 30, hp: 50, attack: 5 },
-    { x: 600, y: 200, width: 30, height: 30, hp: 70, attack: 7 },
+// Plataformas
+const platforms = [
+  { x: 0, y: 550, width: 800, height: 50 },
+  { x: 250, y: 400, width: 200, height: 20 },
 ];
 
-let currentEnemy = null;
-let enemyEncountered = false;
+// Inimigos
+const enemies = [];
 
-function drawPlayer() {
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+function generateEnemies(level) {
+  enemies.length = 0;
+  if (level < 5) {
+    for (let i = 0; i < level + 1; i++) {
+      enemies.push({
+        x: 600 + i * 80,
+        y: 500,
+        width: 40,
+        height: 60,
+        alive: true,
+        vx: enemySpeed
+      });
+    }
+  } else {
+    // Fase do chefão
+    enemies.push({
+      x: 600,
+      y: 480,
+      width: 80,
+      height: 100,
+      alive: true,
+      vx: 1,
+      health: 10,
+      isBoss: true
+    });
+  }
 }
 
-function drawEnemies() {
-    enemies.forEach(enemy => {
-        if (enemy.hp > 0) {
-            ctx.fillStyle = 'red';
-            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+function shoot() {
+  player.bullets.push({
+    x: player.x + player.width,
+    y: player.y + player.height / 2,
+    vx: 6
+  });
+}
+
+function update() {
+  if (gameWon) return;
+
+  if (keys["ArrowLeft"]) player.x -= player.speed;
+  if (keys["ArrowRight"]) player.x += player.speed;
+  if (keys["ArrowUp"] && player.onGround) {
+    player.vy = -10;
+    player.onGround = false;
+  }
+
+  if (keys["Space"]) {
+    if (
+      player.bullets.length === 0 ||
+      player.bullets[player.bullets.length - 1].x - player.x > 40
+    ) {
+      shoot();
+    }
+  }
+
+  player.vy += GRAVITY;
+  player.y += player.vy;
+
+  player.onGround = false;
+  platforms.forEach(p => {
+    if (
+      player.x < p.x + p.width &&
+      player.x + player.width > p.x &&
+      player.y + player.height < p.y + 10 &&
+      player.y + player.height + player.vy >= p.y
+    ) {
+      player.y = p.y - player.height;
+      player.vy = 0;
+      player.onGround = true;
+    }
+  });
+
+  player.bullets.forEach(b => b.x += b.vx);
+  player.bullets = player.bullets.filter(b => b.x < canvas.width);
+
+  // Inimigo comum ou chefão
+  enemies.forEach(e => {
+    if (!e.alive) return;
+
+    e.x -= e.vx;
+    if (e.x + e.width < 0) e.x = canvas.width;
+
+    player.bullets.forEach(bullet => {
+      if (
+        bullet.x < e.x + e.width &&
+        bullet.x + 10 > e.x &&
+        bullet.y < e.y + e.height &&
+        bullet.y + 5 > e.y
+      ) {
+        if (e.isBoss) {
+          e.health--;
+          if (e.health <= 0) {
+            e.alive = false;
+          }
+        } else {
+          e.alive = false;
         }
+      }
     });
+  });
+
+  checkLevelComplete();
+}
+
+function checkLevelComplete() {
+  const allDead = enemies.every(e => !e.alive);
+  if (allDead) {
+    if (currentLevel < 5) {
+      currentLevel++;
+      enemySpeed += 0.5;
+      generateEnemies(currentLevel);
+    } else {
+      gameWon = true;
+    }
+  }
 }
 
 function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPlayer();
-    drawEnemies();
-}
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function encounterEnemy() {
-    const randomIndex = Math.floor(Math.random() * enemies.length);
-    currentEnemy = enemies[randomIndex];
-    enemyEncountered = true;
-    document.getElementById('enemyStats').innerText = 'Enemy HP: ' + currentEnemy.hp;
-}
+  // Fundo preto
+  ctx.fillStyle = "#111";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-function attackEnemy() {
-    if (currentEnemy && currentEnemy.hp > 0) {
-        currentEnemy.hp -= player.attack;
-        document.getElementById('enemyStats').innerText = 'Enemy HP: ' + currentEnemy.hp;
-        if (currentEnemy.hp <= 0) {
-            alert('You defeated the enemy!');
-            enemyEncountered = false;
-            currentEnemy = null;
-            document.getElementById('enemyStats').innerText = 'Enemy HP: 0';
-        } else {
-            enemyAttack();
-        }
+  // Jogador (azul)
+  ctx.fillStyle = "blue";
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+
+  // Plataformas (marrom)
+  ctx.fillStyle = "brown";
+  platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
+
+  // Inimigos
+  enemies.forEach(e => {
+    if (!e.alive) return;
+    ctx.fillStyle = e.isBoss ? "purple" : "red";
+    ctx.fillRect(e.x, e.y, e.width, e.height);
+
+    if (e.isBoss) {
+      ctx.fillStyle = "white";
+      ctx.fillText(`HP: ${e.health}`, e.x + 10, e.y - 5);
     }
+  });
+
+  // Tiros (amarelo)
+  ctx.fillStyle = "yellow";
+  player.bullets.forEach(b => ctx.fillRect(b.x, b.y, 10, 5));
+
+  // HUD
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial";
+  ctx.fillText(`Fase: ${currentLevel}`, 20, 30);
+
+  if (gameWon) {
+    ctx.fillStyle = "lime";
+    ctx.font = "40px Arial";
+    ctx.fillText("Você venceu o jogo!", 220, 300);
+  }
 }
 
-function enemyAttack() {
-    if (currentEnemy) {
-        player.hp -= currentEnemy.attack;
-        if (player.hp <= 0) {
-            alert('You have been defeated!');
-            resetGame();
-        }
-        document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
-    }
+function gameLoop() {
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
 }
 
-function healPlayer() {
-    if (player.hp < player.maxHp) {
-        player.hp += player.healAmount;
-        if (player.hp > player.maxHp) {
-            player.hp = player.maxHp;
-        }
-        document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
-    }
-}
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowUp') {
-        player.y -= 10;
-    } else if (e.key === 'ArrowDown') {
-        player.y += 10;
-    } else if (e.key === 'ArrowLeft') {
-        player.x -= 10;
-    } else if (e.key === 'ArrowRight') {
-        player.x += 10;
-    }
-
-    // Check for enemy encounter
-    if (!enemyEncountered) {
-        enemies.forEach(enemy => {
-            if (player.x < enemy.x + enemy.width &&
-                player.x + player.width > enemy.x &&
-                player.y < enemy.y + enemy.height &&
-                player.y + player.height > enemy.y) {
-                encounterEnemy();
-            }
-        });
-    }
-
-    draw();
-});
-
-// Attack button event listener
-document.getElementById('attackButton').addEventListener('click', attackEnemy);
-
-// Heal button event listener
-document.getElementById('healButton').addEventListener('click', healPlayer);
-
-// Function to reset the game
-function resetGame() {
-    player.hp = player.maxHp;
-    enemies.forEach(enemy => enemy.hp = Math.floor(Math.random() * 50) + 50); // Reset enemy HP
-    enemyEncountered = false;
-    currentEnemy = null;
-    document.getElementById('playerStats').innerText = 'Player HP: ' + player.hp;
-    document.getElementById('enemyStats').innerText = 'Enemy HP: 0';
-    draw();
-}
-
-// Initial draw
-draw();
+generateEnemies(currentLevel);
+gameLoop();
