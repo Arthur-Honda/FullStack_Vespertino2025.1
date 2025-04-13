@@ -6,33 +6,39 @@ img.src = 'cricri.png'; // Substitua pelo caminho da sua imagem
 let mouseX = 0;
 let mouseY = 0;
 
-// Defina a largura e a altura desejadas para a imagem
-const imageWidth = 100; // Largura da imagem
-const imageHeight = 80; // Altura da imagem
+const imageWidth = 100;
+const imageHeight = 80;
 
-// Função para desenhar a imagem no canvas
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
-    ctx.drawImage(img, mouseX - imageWidth / 2, mouseY - imageHeight / 2, imageWidth, imageHeight); // Desenha a imagem redimensionada
+// Garante que a imagem fique dentro do canvas
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
 }
 
-// Evento para capturar a posição do mouse
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, mouseX - imageWidth / 2, mouseY - imageHeight / 2, imageWidth, imageHeight);
+}
+
 canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+
+    // Limita para que a imagem não ultrapasse o canvas
+    mouseX = clamp(x, imageWidth / 2, canvas.width - imageWidth / 2);
+    mouseY = clamp(y, imageHeight / 2, canvas.height - imageHeight / 2);
+
     draw();
 });
 
-// Mantém a imagem dentro do canvas mesmo se o mouse sair
+// Se o mouse sair, a imagem permanece onde estava (sem update)
 canvas.addEventListener('mouseleave', () => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = Math.max(0, Math.min(mouseX, canvas.width));
-    mouseY = Math.max(0, Math.min(mouseY, canvas.height));
-    draw();
+    draw(); // apenas redesenha, já está em posição válida
 });
 
-// Desenha a imagem pela primeira vez quando a imagem estiver carregada
 img.onload = () => {
+    // Centraliza a imagem no início
+    mouseX = canvas.width / 2;
+    mouseY = canvas.height / 2;
     draw();
 };
