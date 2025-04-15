@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "colors": "^1.4.0",
+    "express": "^5.1.0"
+  },
+  "name": "servidor",
+  "version": "1.0.0",
+  "description": "meu prime",
+  "main": "servidor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arthur-Honda/FullStack_Vespertino2025.1.git"
+  },
+  "author": "hondinha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arthur-Honda/FullStack_Vespertino2025.1/issues"
+  },
+  "homepage": "https://github.com/Arthur-Honda/FullStack_Vespertino2025.1#readme"
+}
