@@ -2,14 +2,16 @@
   "dependencies": {
     "colors": "^1.4.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "http": "^0.0.1-security"
   },
-  "name": "servidor",
+  "name": "server",
   "version": "1.0.0",
   "description": "meu prime",
-  "main": "servidor.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/Arthur-Honda/FullStack_Vespertino2025.1/issues"
   },
-  "homepage": "https://github.com/Arthur-Honda/FullStack_Vespertino2025.1#readme"
+  "homepage": "https://github.com/Arthur-Honda/FullStack_Vespertino2025.1#readme",
+  "devDependencies": {},
+  "keywords": [
+    "meu",
+    "segundo",
+    "servidor"
+  ]
 }

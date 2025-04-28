@@ -77,9 +77,6 @@ left: 150px;}
     text-decoration: none;
 }
 
-
-
-
 .margin{margin: 5px;}
 .display{display:block;
     margin-left: auto;
@@ -89,7 +86,59 @@ left: 150px;}
     left: 400;
 }
 
+#menuButton {
+    background-color: #524f54; /* Cor de fundo do botão */
+    color: white;
+    padding: 12px 20px; /* Tamanho do botão */
+    border: none;
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Transição suave para hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
 
+#menuButton:hover {
+    background-color: #b5b0b9; /* Cor mais escura ao passar o mouse */
+    transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais intensa no hover */
+}
+
+#menuButton:active {
+    transform: translateY(2px); /* Efeito de pressionamento */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra mais leve ao pressionar */
+}
+
+/* Estilo para o menu que será mostrado ao clicar */
+#menuOptions {
+    display: none; /* Menu escondido inicialmente */
+    background-color: #f1f1f1;
+    padding: 10px;
+    position: absolute;
+    top: 40px; /* Distância do topo do botão */
+    left: 0;
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 1px solid #ddd;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: opacity 0.3s ease-in-out; /* Transição suave na exibição do menu */
+}
+
+/* Estilo para os itens do menu */
+#menuOptions a {
+    display: block;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 6px; /* Bordas arredondadas nos links */
+    transition: background-color 0.3s; /* Transição suave de fundo */
+}
+
+#menuOptions a:hover {
+    background-color: #ddd;
+    transform: translateX(4px); /* Efeito de deslizar para a direita no hover */
+}
 
 
 

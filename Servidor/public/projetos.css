@@ -1,0 +1,205 @@
+body{ background-image: linear-gradient(to right, lavender, linen,mistyrose, pink) ;
+    margin: 0;
+    height: 100vh; /* Altura total da tela */
+
+}
+
+div a{font-size: 20pt;
+    font-family: Verdana;}
+
+.home{ background-color: lightgray;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 2px solid (black);
+    width: 6%;
+    background: var(lightyellow, 0.5);
+    border: 1px solid var(lightblue, 0.5);
+    border: 5px solid black;
+    text-decoration: none;
+    color: black;
+}
+.project{background-color: lightgray;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 8%;
+    background: var( lightyellow, 0.5);
+    border: 1px solid var(lightblue, 0.5);
+    border: 5px solid black;
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+
+}
+.home:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 6%;
+    border: 3px solid black; }
+.project:hover{
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1.5px;
+    width: 8%;
+    border: 3px solid black; }
+.fix_home{position: fixed;
+top: 1px;
+left: 5px;}
+.fix_projeto{position: fixed;
+top: 1px;
+left: 150px;}
+
+.margin{margin: 10px;}
+
+
+#menuButton {
+    background-color: #524f54; /* Cor de fundo do botão */
+    color: white;
+    padding: 12px 20px; /* Tamanho do botão */
+    border: none;
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Transição suave para hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+#menuButton:hover {
+    background-color: #b5b0b9; /* Cor mais escura ao passar o mouse */
+    transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais intensa no hover */
+}
+
+#menuButton:active {
+    transform: translateY(2px); /* Efeito de pressionamento */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra mais leve ao pressionar */
+}
+
+/* Estilo para o menu que será mostrado ao clicar */
+#menuOptions {
+    display: none; /* Menu escondido inicialmente */
+    background-color: #f1f1f1;
+    padding: 10px;
+    position: absolute;
+    top: 40px; /* Distância do topo do botão */
+    left: 0;
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 1px solid #ddd;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: opacity 0.3s ease-in-out; /* Transição suave na exibição do menu */
+}
+
+/* Estilo para os itens do menu */
+#menuOptions a {
+    display: block;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 6px; /* Bordas arredondadas nos links */
+    transition: background-color 0.3s; /* Transição suave de fundo */
+}
+
+#menuOptions a:hover {
+    background-color: #ddd;
+    transform: translateX(4px); /* Efeito de deslizar para a direita no hover */
+}
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    text-align: center;
+    
+
+}
+
+.background{
+    background-color: lightpink;
+    border-radius: 10px;
+    border: 1px solid rebeccapurple;
+    padding: 20px;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+
+
+}
+
+.centralizar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    text-align: center;
+    
+}
+
+/* Estilo da tabela */
+table {
+    width: 80%; /* Tamanho da tabela */
+    margin: 20px auto; /* Centraliza a tabela na página */
+    border-collapse: collapse; /* Remove o espaçamento entre as bordas das células */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
+    border-radius: 8px; /* Bordas arredondadas */
+    background-color: linen; /* Cor de fundo da tabela */
+    table-layout: fixed;
+}
+
+/* Estilo das células da tabela */
+td, th {
+    padding: 8px 15px; /* Reduz o espaçamento interno */
+    text-align: left; /* Alinha o texto à esquerda */
+    border: 1px solid rebeccapurple; /* Bordas em rebeccapurple */
+    font-family: 'Arial', sans-serif; /* Fonte */
+    vertical-align: middle; /* Alinha o conteúdo verticalmente ao centro */
+}
+
+/* Estilo para as células do cabeçalho */
+th {
+    background-color: rebeccapurple; /* Cor de fundo do cabeçalho */
+    color: ivory; /* Cor do texto */
+    font-weight: bold; /* Texto em negrito */
+}
+
+/* Estilo para as linhas alternadas */
+tr:nth-child(even) {
+    background-color: lavender; /* Cor de fundo para linhas pares */
+}
+
+tr:nth-child(odd) {
+    background-color: mistyrose; /* Cor de fundo para linhas ímpares */
+}
+
+/* Estilo para o link dentro das células */
+a {
+    color: pink; /* Cor do link */
+    text-decoration: none; /* Remove o sublinhado */
+    font-weight: bold; /* Texto em negrito */
+}
+
+/* Efeito ao passar o mouse sobre o link */
+a:hover {
+    text-decoration: underline; /* Adiciona o sublinhado ao passar o mouse */
+    color: blanchedalmond; /* Muda a cor do link */
+}
+
+/* Estilo para o parágrafo acima da tabela */
+.margin_40 {
+    font-size: 20px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    color: rebeccapurple; /* Cor do texto */
+    text-align: center; /* Alinha o texto ao centro */
+    margin-bottom: 20px; /* Espaçamento abaixo do parágrafo */
+}
