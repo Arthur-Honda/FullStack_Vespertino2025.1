@@ -3,12 +3,13 @@
     "colors": "^1.4.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "mongodb": "4.12"
   },
-  "name": "server",
+  "name": "servidor",
   "version": "1.0.0",
   "description": "meu prime",
-  "main": "server.js",
+  "main": "servidor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -27,5 +28,6 @@
     "meu",
     "segundo",
     "servidor"
-  ]
+  ],
+  "devDependencies": {}
 }

@@ -1,8 +1,15 @@
 let bodyParser = require('body-parser');
-
 require("colors");
 var http = require('http');
 var express = require('express');
+var mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+
+const uri = 'mongodb+srv://arthurhonda:cfoULdNYwqFEhB8m@honda.owbcofv.mongodb.net/?retryWrites=true&w=majority&appName=Honda;'
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+var dbo = client.db("Honda");
+var usuarios = dbo.collection("usuarios");
 
 var app = express();
 app.use(express.static('./public'));
@@ -43,7 +50,19 @@ app.post('/cadastrar', function(req, res) {
     let senha = req.body.Senha;
     let nasc = req.body.Nascimento;
     console.log(nome, login, senha, nasc);
-    res.render("res", {nome, login, senha, nasc})
+
+    var data = {db_nome: nome, db_login: login, db_senha: senha, db_nasc: nasc};
+    usuarios.insertOne(data, function(err, res) {
+        if (err) {
+            res.render("res", {status: "Erro", nome, login, senha, nasc});
+        }else {
+            res.render("res", {status: "Cadastro realizado com sucesso!", nome, login, senha, nasc})
+        };
+    });
+
+    res.render("res", {nome, login, senha, nasc});
+
+
 });
 
 
@@ -51,7 +70,5 @@ app.get("/for_ejs", function(req, res) {
     let valor = req.query.valor;
     res.render("exemplo_for", {valor});
 });
-
-
 
 
