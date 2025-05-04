@@ -1,75 +1,106 @@
-let bodyParser = require('body-parser');
-var path = require('path')
-var http = require('http');
-var express = require('express');
-var app = express();
-require("colors");
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const bodyParser = require('body-parser');
+require('colors');
+const { MongoClient } = require('mongodb');
 
-var mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
+const app = express();
+const server = http.createServer(app);
 
-const uri = 'mongodb+srv://arthurhonda:cfcULdNYwqFEhB8m@honda.owbcofv.mongodb.net/?retryWrites=true&w=majority&appName=Honda;'
-const client = new MongoClient(uri, { useNewUrlParser: true });
+// MongoDB
+const uri = 'mongodb+srv://arthurhonda:cfcULdNYwqFEhB8m@honda.owbcofv.mongodb.net/?retryWrites=true&w=majority&appName=Honda';
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-var dbo = client.db("Honda");
-var usuarios = dbo.collection("usuarios");
-
+// Middleware
 app.use(express.static('./public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-var server = http.createServer(app);   
-server.listen(80);
+let usuarios;
+let posts;
 
-console.log("Servidor rodando...".rainbow);
+client.connect()
+  .then(() => {
+    const db = client.db('Honda');
+    usuarios = db.collection('usuarios');
+    posts = db.collection('posts');
+    server.listen(80, () => {
+      console.log("Servidor rodando".rainbow);
+    });
+  })
+  .catch(err => {
+    console.error("Erro ao conectar ao MongoDB:", err);
+  });
 
-app.use(express.urlencoded({ extended: true}));
-
-
+// Rotas
 app.get('/', (req, res) => {
-    res.redirect('projetos.html');
+  res.redirect('projetos.html');
 });
 
-
-
 app.get('/cadastra', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'cadastro_login', 'cadastro.html'));
+  res.sendFile(path.join(__dirname, 'public', 'cadastro_login', 'cadastro.html'));
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'cadastro_login', 'login.html'));
+  res.sendFile(path.join(__dirname, 'public', 'cadastro_login', 'login.html'));
 });
 
+app.post('/cadastra', async (req, res) => {
+  const { usuario, senha } = req.body;
 
-app.post('/cadastra', (req, res) => {
-    let usuario = req.body.usuario;
-    let senha = req.body.senha;
-
-    const existe = usuarios.find(u => u.usuario === usuario);
-    
+  try {
+    const existe = await usuarios.findOne({ usuario });
 
     if (existe) {
-        res.render('resposta_cadastro_n', { mensagem: 'Usuário já existe!' });
-      } else {
-        usuarios.push({ usuario, senha });
-        res.render('resposta_cadastro_y', { mensagem: 'Cadastro realizado com sucesso!' });
-      }
+      res.render('resposta_cadastro_n', { mensagem: 'Usuário já existe!' });
+    } else {
+      await usuarios.insertOne({ usuario, senha });
+      res.render('resposta_cadastro_y', { mensagem: 'Cadastro realizado com sucesso!' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.render('resposta_cadastro_n', { mensagem: 'Erro ao cadastrar!' });
+  }
 });
 
-app.post('/login', (req, res) => {
-    let usuario = req.body.usuario;
-    let senha = req.body.senha;
+app.post('/login', async (req, res) => {
+  const { usuario, senha } = req.body;
 
-    const encontrado = usuarios.find(u => u.usuario === usuario && u.senha === senha);
+  try {
+    const encontrado = await usuarios.findOne({ usuario, senha });
 
     if (encontrado) {
-        res.render('resposta_login_y', { mensagem: 'Login bem-sucedido! Seja bem-vindo(a) ' + usuario + '!' });
+      res.render('resposta_login_y', { mensagem: `Login bem-sucedido! Seja bem-vindo(a) ${usuario}!` });
     } else {
-        res.render('resposta_login_n', { mensagem: 'Usuário ou senha incorretos!' });
-    }    
-})
+      res.render('resposta_login_n', { mensagem: 'Usuário ou senha incorretos!' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.render('resposta_login_n', { mensagem: 'Erro ao realizar login!' });
+  }
+});
+
+// Página do blog
+app.get('/blog', async (req, res) => {
+    const todosPosts = await posts.find().toArray();
+    res.render('blog', { posts: todosPosts });
+  });
+  
+  // Página de formulário
+  app.get('/cadastrar_post', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'post', 'cadastrar_post.html'));
+  });
+  
+  // Cadastrar post no banco
+  app.post('/cadastrar_post', async (req, res) => {
+    const { titulo, resumo, conteudo } = req.body;
+    await posts.insertOne({ titulo, resumo, conteudo });
+    res.redirect('/blog');
+  });
+
 
 // app.post('/cadastrar', function(req, res) {
 //     let nome = req.body.Nome;

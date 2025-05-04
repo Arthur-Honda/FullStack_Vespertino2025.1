@@ -1,0 +1,138 @@
+/* Reset e base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+  
+  h1, h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  /* Container principal */
+  .container {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    margin-bottom: 30px;
+  }
+  
+  /* Formulário */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-size: 16px;
+  }
+  
+  textarea {
+    height: 120px;
+    resize: vertical;
+  }
+  
+  button {
+    background-color: #03dac5;
+    color: #000;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #00bfa5;
+  }
+  
+  /* Postagens no blog */
+  .post {
+    background-color: #1f1f1f;
+    border-left: 5px solid #03dac5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+  
+  .post h2 {
+    margin-bottom: 10px;
+    color: #03dac5;
+  }
+  
+  .post p {
+    margin: 5px 0;
+  }
+  
+  /* Links */
+  a {
+    color: #03dac5;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Tabelas (Projects.html) */
+  table {
+    width: 90%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    color: #e0e0e0;
+  }
+  
+  tr:hover {
+    background-color: #2a2a2a;
+  }
+  
+  th {
+    background-color: #222;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 600px) {
+    .container, .post, table {
+      width: 95%;
+    }
+  
+    body {
+      padding: 15px;
+    }
+  }
+  
