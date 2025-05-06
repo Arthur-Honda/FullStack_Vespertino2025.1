@@ -94,12 +94,80 @@ app.get('/blog', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'post', 'cadastrar_post.html'));
   });
   
+
+
+
+  
+
+
   // Cadastrar post no banco
+
   app.post('/cadastrar_post', async (req, res) => {
     const { titulo, resumo, conteudo } = req.body;
-    await posts.insertOne({ titulo, resumo, conteudo });
-    res.redirect('/blog');
+
+    try {
+        // Insere o post no banco de dados
+        await posts.insertOne({ titulo, resumo, conteudo });
+
+        // Renderiza a página "Post Cadastrado"
+        res.render('cadastrado');
+    } catch (err) {
+        console.error('Erro ao cadastrar o post:', err);
+
+        // Em caso de erro, retorna uma mensagem de erro
+        res.status(500).send('Erro ao cadastrar o post.');
+    }
+});
+
+
+
+app.post('/atualizar_senha', (req, res) => {
+  let login = req.body.Login;
+  let senha = req.body.Senha;
+  let newSenha = req.body.Nova_senha;  
+  let data = {db_login: login, db_senha: senha};
+  let newData = { $set: {db_senha: newSenha}};
+
+  usuarios.updateOne(data, newData, (err, result) => {
+    console.log("Atualizando senha".yellow);
+    console.log(result);
+    if (result.modifiedCount == 0) {
+      res.render('resposta', {status: "Usuário/senha não encontrado!"})
+    }else if (err) {
+      res.render('resposta', {status: "Erro ao atualizar usuário!"})
+    }else {
+      res.render('resposta', {status: "Usuário atualizado com sucesso!"})        
+    };
   });
+ 
+});
+
+
+app.post('/remover_usuario', (req, res) => {
+  let login = req.body.Login;
+  let senha = req.body.Senha;
+  let data = {db_login: login, db_senha: senha};
+
+  usuarios.deleteOne(data, (err, result) => {
+    console.log(result);
+      if (result.deletedCount == 0) {
+        res.render('resposta', {status: "Usuário/senha não encontrado!"})
+      }else if (err) {
+        res.render('resposta', {status: "Erro ao remover usuário!"})
+      }else {
+        res.render('resposta', {status: "Usuário removido com sucesso!"})        
+      };
+    });
+
+  });
+
+
+
+  // app.post('/cadastrar_post', async (req, res) => {
+  //   const { titulo, resumo, conteudo } = req.body;
+  //   await posts.insertOne({ titulo, resumo, conteudo });
+  //   res.redirect('/blog');
+  // });
 
 
 // app.post('/cadastrar', function(req, res) {
@@ -129,24 +197,24 @@ app.get('/blog', async (req, res) => {
 // });
 
 
-// app.post('/logar', (req, res) => {
-//     let log = req.body.Login;
-//     let passw = req.body.Senha;
-//     console.log(log, passw);
+app.post('/logar', (req, res) => {
+    let log = req.body.Login;
+    let passw = req.body.Senha;
+    console.log(log, passw);
 
-//     var data = {db_login: log, db_senha: passw};
+    var data = {db_login: log, db_senha: passw};
 
-//     usuarios.find(data).toArray(function(err, item) {
-//         console.log(item);
-//         if (item.length == 0) {
-//             res.render("resposta", {status: "usuario/senha não encontrados", log, passw});
-//         }else if(err) {
-//             res.render("resposta", {status: "Erro ao logar", log, passw});
-//         }else{
-//             res.render("resposta", {status: "Usuario logado", log, passw});
-//         }
+    usuarios.find(data).toArray(function(err, item) {
+        console.log(item);
+        if (item.length == 0) {
+            res.render("resposta", {status: "usuario/senha não encontrados", log, passw});
+        }else if(err) {
+            res.render("resposta", {status: "Erro ao logar", log, passw});
+        }else{
+            res.render("resposta", {status: "Usuario logado", log, passw});
+        }
             
             
 
-//     });
-// });
+    });
+});
