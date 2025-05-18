@@ -21,12 +21,16 @@ app.set('views', './views');
 
 let usuarios;
 let posts;
+let users;
+let carros;
 
 client.connect()
   .then(() => {
     const db = client.db('Honda');
     usuarios = db.collection('usuarios');
     posts = db.collection('posts');
+    users = db.collection('users');
+    carros = db.collection('carros');
     server.listen(80, () => {
       console.log("Servidor rodando".rainbow);
     });
@@ -94,12 +98,6 @@ app.get('/blog', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'post', 'cadastrar_post.html'));
   });
   
-
-
-
-  
-
-
   // Cadastrar post no banco
 
   app.post('/cadastrar_post', async (req, res) => {
@@ -120,46 +118,89 @@ app.get('/blog', async (req, res) => {
 });
 
 
+// ------------- ATIVIDADE CARROS ------------- //
+app.get('/catalogo', (req, res) => {
+  res.render('catalogo');
+});
+  
+  
+  // const todosCarros = await posts.find().toArray();
+//   res.render('catalogo' , { carros: todosCarros });
+// });
 
-app.post('/atualizar_senha', (req, res) => {
-  let login = req.body.Login;
-  let senha = req.body.Senha;
-  let newSenha = req.body.Nova_senha;  
-  let data = {db_login: login, db_senha: senha};
-  let newData = { $set: {db_senha: newSenha}};
-
-  usuarios.updateOne(data, newData, (err, result) => {
-    console.log("Atualizando senha".yellow);
-    console.log(result);
-    if (result.modifiedCount == 0) {
-      res.render('resposta', {status: "Usuário/senha não encontrado!"})
-    }else if (err) {
-      res.render('resposta', {status: "Erro ao atualizar usuário!"})
+app.post('/cadastrar', (req, res) => {
+  let name = req.body.name;
+  let user = req.body.user;
+  let password = req.body.password;
+  var data = {db_name: name, db_user: user, db_password: password,};
+  
+  users.insertOne(data, err => {
+    if (err) {
+      res.render("resposta_cadastro_n", {mensagem: "Erro", name, user, password});
     }else {
-      res.render('resposta', {status: "Usuário atualizado com sucesso!"})        
+      res.render("resposta_cadastro_y", {mensagem: "Cadastro realizado com sucesso!", name, user, password})
     };
   });
- 
+});
+
+app.post('/logar', (req, res) => {
+  let user = req.body.user;
+  let password = req.body.password;
+  var data = {db_user: user, db_password: password};
+  users.find(data).toArray(function(err, item) {
+    if (item.length == 0) {
+      res.render("resposta_login_n", {mensagem: "Usuário/senha não encontrados", user, password});
+    }else if(err) {
+      res.render("resposta_login_n", {mensagem: "Erro ao logar", user, password});
+    }else{
+      res.render("resposta_login_carro", {mensagem: "Usuário logado com sucesso!", user, password});
+    }
+  });
 });
 
 
-app.post('/remover_usuario', (req, res) => {
-  let login = req.body.Login;
-  let senha = req.body.Senha;
-  let data = {db_login: login, db_senha: senha};
 
-  usuarios.deleteOne(data, (err, result) => {
-    console.log(result);
-      if (result.deletedCount == 0) {
-        res.render('resposta', {status: "Usuário/senha não encontrado!"})
-      }else if (err) {
-        res.render('resposta', {status: "Erro ao remover usuário!"})
-      }else {
-        res.render('resposta', {status: "Usuário removido com sucesso!"})        
-      };
-    });
 
-  });
+
+// app.post('/atualizar_senha', (req, res) => {
+//   let login = req.body.Login;
+//   let senha = req.body.Senha;
+//   let newSenha = req.body.Nova_senha;  
+//   let data = {db_login: login, db_senha: senha};
+//   let newData = { $set: {db_senha: newSenha}};
+
+//   usuarios.updateOne(data, newData, (err, result) => {
+//     console.log("Atualizando senha".yellow);
+//     console.log(result);
+//     if (result.modifiedCount == 0) {
+//       res.render('resposta', {status: "Usuário/senha não encontrado!"})
+//     }else if (err) {
+//       res.render('resposta', {status: "Erro ao atualizar usuário!"})
+//     }else {
+//       res.render('resposta', {status: "Usuário atualizado com sucesso!"})        
+//     };
+//   });
+ 
+// });
+
+
+// app.post('/remover_usuario', (req, res) => {
+//   let login = req.body.Login;
+//   let senha = req.body.Senha;
+//   let data = {db_login: login, db_senha: senha};
+
+//   usuarios.deleteOne(data, (err, result) => {
+//     console.log(result);
+//       if (result.deletedCount == 0) {
+//         res.render('resposta', {status: "Usuário/senha não encontrado!"})
+//       }else if (err) {
+//         res.render('resposta', {status: "Erro ao remover usuário!"})
+//       }else {
+//         res.render('resposta', {status: "Usuário removido com sucesso!"})        
+//       };
+//     });
+
+//   });
 
 
 
@@ -170,7 +211,7 @@ app.post('/remover_usuario', (req, res) => {
   // });
 
 
-// app.post('/cadastrar', function(req, res) {
+// app.post('/cad', function(req, res) {
 //     let nome = req.body.Nome;
 //     let login = req.body.Login;
 //     let senha = req.body.Senha;
@@ -197,24 +238,24 @@ app.post('/remover_usuario', (req, res) => {
 // });
 
 
-app.post('/logar', (req, res) => {
-    let log = req.body.Login;
-    let passw = req.body.Senha;
-    console.log(log, passw);
+// app.post('/log', (req, res) => {
+//     let log = req.body.Login;
+//     let passw = req.body.Senha;
+//     console.log(log, passw);
 
-    var data = {db_login: log, db_senha: passw};
+//     var data = {db_login: log, db_senha: passw};
 
-    usuarios.find(data).toArray(function(err, item) {
-        console.log(item);
-        if (item.length == 0) {
-            res.render("resposta", {status: "usuario/senha não encontrados", log, passw});
-        }else if(err) {
-            res.render("resposta", {status: "Erro ao logar", log, passw});
-        }else{
-            res.render("resposta", {status: "Usuario logado", log, passw});
-        }
+//     usuarios.find(data).toArray(function(err, item) {
+//         console.log(item);
+//         if (item.length == 0) {
+//             res.render("resposta", {status: "usuario/senha não encontrados", log, passw});
+//         }else if(err) {
+//             res.render("resposta", {status: "Erro ao logar", log, passw});
+//         }else{
+//             res.render("resposta", {status: "Usuario logado", log, passw});
+//         }
             
             
 
-    });
-});
+//     });
+// });
