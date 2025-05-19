@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo</title>
-    <link rel="stylesheet" href="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo</title>
+  <link rel="stylesheet" href="carros/cars.css">
 </head>
+
 <body>
+  <div class="actions">
+    <a href="/cadastrar_carro">Gerenciar carros</a>
+  </div>
+
+  <div class="flexbox">
     <h1>Catálogo</h1>
-    <a href="/public/carros/manager.html">Gerenciar carros</a>
-  
-    <% posts.forEach(post => { %>
-      <div class="post">
-        <h2><%= post.titulo %></h2>
-        <p><strong>Resumo:</strong> <%= post.resumo %></p>
-        <p><%= post.conteudo %></p>
+
+    <% carros.forEach(carro => { %>
+      <div class="carro">
+        <h2><%= carro.marca %> - <%= carro.modelo %> - <%= carro.ano %></h2>
+        <p>
+          <% if (carro.qtde_disponivel === 0) { %>
+            <strong style="color: red;">Esgotado</strong>
+          <% } else { %>
+            Quantidade disponível: <%= carro.qtde_disponivel %>
+          <% } %>
+        </p>
       </div>
     <% }) %>
+
+  </div>
 </body>
 </html>

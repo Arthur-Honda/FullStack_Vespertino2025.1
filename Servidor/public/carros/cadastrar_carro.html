@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Carros</title>
+    <link rel="stylesheet" href="/carros/cars.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gerenciar Carros</h1>
+
+        <div class="actions">
+            <button class="action-btn" onclick="showForm('cadastrar')">Cadastrar Novo Carro</button>
+            <button class="action-btn" onclick="showForm('remover')">Remover Carro</button>
+            <button class="action-btn" onclick="showForm('atualizar')">Atualizar Carro</button>
+            <button class="action-btn" onclick="showForm('vender')">Vender Carro</button>
+        </div>
+
+        <!-- Formulário Cadastrar -->
+        <div id="cadastrar" class="form-section active">
+            <h2>Cadastrar Novo Carro</h2>
+            <form action="/cadastrar_carro" method="POST">
+                <input type="text" name="marca" placeholder="Marca do carro" required><br>
+                <input type="text" name="modelo" placeholder="Modelo do carro" required><br>
+                <input type="number" name="ano" placeholder="Ano do carro" required><br>
+                <input type="number" name="quantidade" placeholder="Quantidade" required min="1"><br>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+
+        <!-- Formulário Remover -->
+        <div id="remover" class="form-section">
+            <h2>Remover Carro</h2>
+            <form action="/remover_carro" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este carro?')">
+                <input type="text" name="marca" placeholder="Marca do carro" required><br>
+                <input type="text" name="modelo" placeholder="Modelo do carro" required><br>
+                <input type="number" name="ano" placeholder="Ano do carro" required><br>
+                <button type="submit">Remover</button>
+            </form>
+        </div>
+
+        <!-- Formulário Atualizar -->
+        <div id="atualizar" class="form-section">
+            <h2>Atualizar Carro (Quantidade)</h2>
+            <form action="/atualizar_carro" method="POST">
+                <input type="text" name="marca" placeholder="Marca do carro" required><br>
+                <input type="text" name="modelo" placeholder="Modelo do carro" required><br>
+                <input type="number" name="ano" placeholder="Ano do carro" required><br>
+                <input type="number" name="nova_quantidade" placeholder="Nova quantidade" required min="0"><br>
+                <button type="submit">Atualizar</button>
+            </form>
+        </div>
+
+        <!-- Formulário Vender -->
+        <div id="vender" class="form-section">
+            <h2>Vender Carro</h2>
+            <form action="/vender_carro" method="POST">
+                <input type="text" name="marca" placeholder="Marca do carro" required><br>
+                <input type="text" name="modelo" placeholder="Modelo do carro" required><br>
+                <input type="number" name="ano" placeholder="Ano do carro" required><br>
+                <button type="submit">Vender</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showForm(id) {
+            document.querySelectorAll('.form-section').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

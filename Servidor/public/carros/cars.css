@@ -26,7 +26,7 @@
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 5px;
   }
   
@@ -35,7 +35,7 @@
     padding: 10px;
     background-color: #6b73ff;
     color: #fff;
-    border: none;
+    border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
@@ -56,3 +56,70 @@
     font-weight: bold;
   }
   
+  .carro {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 90%;
+    width: 500px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    background-color: #ffffff;
+    font-size: 12px;
+  }
+
+.actions {
+  position: fixed;    /* fixa no topo da tela */
+  top: 10px;          /* um pequeno espaçamento do topo */
+  left: 10px;         /* um pequeno espaçamento da esquerda */
+  display: flex;      /* deixa os links na horizontal */
+  gap: 10px;          /* espaço entre os links */
+  padding: 5px 10px;  /* espaçamento interno */
+  border-radius: 5px; /* cantos arredondados */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1); /* sombra leve */
+}
+
+.actions a {
+  text-decoration: none;
+  background-color: white;
+  color: #007BFF;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 1px solid #007BFF;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.actions a:hover {
+  background-color: #b0cae7;
+  color: rgb(45, 70, 182);
+}
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+}
+
+.flexbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}

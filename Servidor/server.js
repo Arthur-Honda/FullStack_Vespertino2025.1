@@ -119,14 +119,17 @@ app.get('/blog', async (req, res) => {
 
 
 // ------------- ATIVIDADE CARROS ------------- //
-app.get('/catalogo', (req, res) => {
-  res.render('catalogo');
+app.get('/catalogo', async (req, res) => {
+  try {
+    // Busca sem agrupar, já que você quer cada ano separado
+    const carrosList = await carros.find().toArray();
+    res.render('catalogo', { carros: carrosList });
+  } catch (err) {
+    console.error('Erro ao carregar o catálogo:', err);
+    res.status(500).send('Erro ao carregar o catálogo.');
+  }
 });
   
-  
-  // const todosCarros = await posts.find().toArray();
-//   res.render('catalogo' , { carros: todosCarros });
-// });
 
 app.post('/cadastrar', (req, res) => {
   let name = req.body.name;
@@ -141,6 +144,10 @@ app.post('/cadastrar', (req, res) => {
       res.render("resposta_cadastro_y", {mensagem: "Cadastro realizado com sucesso!", name, user, password})
     };
   });
+});
+
+app.get('/logar', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'carros', 'logar_user.html'));
 });
 
 app.post('/logar', (req, res) => {
@@ -158,7 +165,116 @@ app.post('/logar', (req, res) => {
   });
 });
 
+app.get('/cadastrar_carro', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'carros', 'cadastrar_carro.html'));
+});
 
+// Página de formulário
+app.post('/cadastrar_carro', async (req, res) => {
+  const { marca, modelo, ano, quantidade } = req.body;
+
+  const filtro = {
+    marca,
+    modelo,
+    ano: parseInt(ano)
+  };
+
+  try {
+    const carroExistente = await carros.findOne(filtro);
+
+    if (carroExistente) {
+      // Carro já existe — apenas incrementa a quantidade
+      await carros.updateOne(
+        filtro,
+        { $inc: { qtde_disponivel: parseInt(quantidade) } }
+      );
+      res.render('carro_cadastrado', { mensagem: 'Quantidade atualizada para carro existente.' });
+    } else {
+      // Carro novo — insere com a quantidade inicial
+      await carros.insertOne({
+        marca,
+        modelo,
+        ano: parseInt(ano),
+        qtde_disponivel: parseInt(quantidade)
+      });
+      res.render('carro_cadastrado', { mensagem: 'Carro cadastrado com sucesso!' });
+    }
+
+  } catch (err) {
+    console.error('Erro ao cadastrar o carro:', err);
+    res.status(500).send('Erro ao cadastrar o carro.');
+  }
+});
+
+app.post('/remover_carro', async (req, res) => {
+  const { marca, modelo, ano } = req.body;
+
+  try {
+    const resultado = await carros.deleteOne({
+      marca,
+      modelo,
+      ano: parseInt(ano)
+    });
+
+    if (resultado.deletedCount > 0) {
+      res.render('remove_carro', { mensagem: 'Carro removido com sucesso!' });
+    } else {
+      res.render('remove_carro', { mensagem: 'Carro não encontrado!' });
+    }
+
+  } catch (err) {
+    console.error('Erro ao remover o carro:', err);
+    res.status(500).send('Erro ao remover o carro.');
+  }
+});
+app.post('/atualizar_carro', async (req, res) => {
+  const { marca, modelo, ano, nova_quantidade } = req.body;
+
+  try {
+    const resultado = await carros.updateOne(
+      { marca, modelo, ano: parseInt(ano) },
+      { $set: { qtde_disponivel: parseInt(nova_quantidade) } }
+    );
+
+    if (resultado.matchedCount > 0) {
+      res.render('atualizar_carro', { mensagem: 'Quantidade atualizada com sucesso!' });
+    } else {
+      res.render('atualizar_carro', { mensagem: 'Carro não encontrado!' });
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar o carro:', err);
+    res.status(500).send('Erro ao atualizar o carro.');
+  }
+});
+
+app.post('/vender_carro', async (req, res) => {
+  const { marca, modelo, ano } = req.body;
+
+  try {
+    const filtro = { marca, modelo, ano: parseInt(ano) };
+    const carro = await carros.findOne(filtro);
+
+    if (!carro) {
+      return res.render('venda', { mensagem: 'Carro não encontrado!' });
+    }
+
+    if (carro.qtde_disponivel > 0) {
+      await carros.updateOne(filtro, { $inc: { qtde_disponivel: -1 } });
+
+      const novaQtde = carro.qtde_disponivel - 1;
+      if (novaQtde === 0) {
+        return res.render('venda', { mensagem: 'Carro vendido. Agora está esgotado!' });
+      }
+
+      res.render('venda', { mensagem: `Carro vendido com sucesso! Quantidade restante: ${novaQtde}` });
+    } else {
+      res.render('venda', { mensagem: 'Este carro já está esgotado!' });
+    }
+  } catch (err) {
+    console.error('Erro ao vender o carro:', err);
+    res.status(500).send('Erro ao vender o carro.');
+  }
+});
 
 
 
