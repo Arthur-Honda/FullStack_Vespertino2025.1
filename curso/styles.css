@@ -1,0 +1,62 @@
+body {
+    font-family: monospace;
+}
+
+ul{
+    font-family: helvetica;
+}
+
+il {
+    list-style: circle;
+}
+
+.list{
+    list-style: square;
+}
+
+
+:root {
+    --primary-color: #f8dfdf;
+    --secondary-color: #201c35;
+}
+
+.light-theme {
+    --bg: var(--primary-color);
+    --fontColor: var(--secondary-color);
+    --btnFontColor: var(--primary-color);
+    --btnBg: var(--secondary-color);
+}
+
+.dark-theme{
+    --bg: var(--secondary-color);
+    --fontColor: var(--primary-color);
+    --btnFontColor: var(--secondary-color);
+    --btnBg: var(--primary-color);
+}
+
+*{
+    color: var(--fontColor);
+    font-family: Helvetica;
+}
+
+body{
+    background-color: var(--bg);
+}
+
+
+.btn{
+    position: absolute;
+    top:20px;
+    left: 250px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: none;
+    color: var(--btnFontColor);
+    background-color: var(--btnBg);
+}
+
+.btn:focus{
+    outline-style: none;
+}
+
